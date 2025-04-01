@@ -5,10 +5,10 @@ name: SQL INJECTION TEST
 on:
   push:
     branches:
-      - main
+      - dev
   pull_request:
     branches:
-      - main
+      - dev
 
 # Tareas
 jobs:
@@ -34,7 +34,7 @@ jobs:
 
       - name: Verificar SonarQube...
         run: |
-          sudo curl -I https://a9b3-79-112-14-86.ngrok-free.app
+          sudo curl -I https://7df9-79-112-14-86.ngrok-free.app
         continue-on-error: true
 
       - name: Analizar código en SonarQube...
@@ -43,7 +43,7 @@ jobs:
         run: |
           sonar-scanner \
             -Dsonar.projectKey=SQLInjectionTest \
-            -Dsonar.host.url=https://a9b3-79-112-14-86.ngrok-free.app \
+            -Dsonar.host.url=https://7df9-79-112-14-86.ngrok-free.app \
             -Dsonar.login=$MAIN_TOKEN \
             -Dsonar.sources=src/com/example/sqlinjectiontest/Main.java \
             -Dsonar.qualitygate.wait=true \
