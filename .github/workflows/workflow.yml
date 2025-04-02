@@ -32,10 +32,10 @@ jobs:
           mv sonar-scanner-5.0.1.3006-linux sonar-scanner
           echo "PATH=$PATH:$(pwd)/sonar-scanner/bin" >> $GITHUB_ENV
 
-      - name: Verificar SonarQube...
-        run: |
-          sudo curl -I https://a9b3-79-112-14-86.ngrok-free.app
-        continue-on-error: true
+      # - name: Verificar SonarQube...
+      #   run: |
+      #     sudo curl -I https://a9b3-79-112-14-86.ngrok-free.app
+      #   continue-on-error: true
 
       - name: Analizar código en SonarQube...
         env:
@@ -43,7 +43,7 @@ jobs:
         run: |
           sonar-scanner \
             -Dsonar.projectKey=SQLInjectionTest \
-            -Dsonar.host.url=https://a9b3-79-112-14-86.ngrok-free.app \
+            -Dsonar.host.url=https://76e4-31-4-242-171.ngrok-free.app \
             -Dsonar.login=$MAIN_TOKEN \
             -Dsonar.sources=src/com/example/sqlinjectiontest/Main.java \
             -Dsonar.qualitygate.wait=true \
