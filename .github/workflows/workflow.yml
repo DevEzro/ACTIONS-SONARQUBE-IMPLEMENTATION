@@ -54,7 +54,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }}
         run: |
           sonar-scanner \
-            -Dsonar.projectKey=Varios tests \
+            -Dsonar.projectKey=VariosTests \
             -Dsonar.host.url=http://rniek-79-112-14-86.a.free.pinggy.link \
             -Dsonar.login=$MAIN_TOKEN \
             -Dsonar.sources=src/com/example/sqlinjectiontest/Main.java \
