@@ -28,7 +28,7 @@ jobs:
       - name: Configurar Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'  # Puedes cambiar a '3.10' si lo necesitas
+          python-version: '3.x'
 
       - name: Instalar Pytest
         run: pip install pytest
