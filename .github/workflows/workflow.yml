@@ -30,11 +30,8 @@ jobs:
         run: pip install pytest
 
       - name: Run pytests
-        run: pytest -s -v --disable-pytest-warnings python/file.py
-
-      - name: Create file
-        run: |
-          echo 'pytest results OK' > results.txt
+        run: | 
+          echo $(pytest -s -v --disable-pytest-warnings python/file.py) > results.txt
           cat results.txt
 
       - name: Install Sonar Scanner
@@ -46,7 +43,7 @@ jobs:
 
       - name: Verify SonarQube...
         run: |
-          sudo curl -I http://rniek-79-112-14-86.a.free.pinggy.link
+          sudo curl -I http://rncmr-77-231-9-10.a.free.pinggy.link
         continue-on-error: true
 
       - name: Check code in SonarQube...
@@ -56,7 +53,7 @@ jobs:
           sonar-scanner \
             -Dsonar.python.version=3.x \
             -Dsonar.projectKey=VariosTests \
-            -Dsonar.host.url=http://rniek-79-112-14-86.a.free.pinggy.link \
+            -Dsonar.host.url=http://rncmr-77-231-9-10.a.free.pinggy.link \
             -Dsonar.token=$MAIN_TOKEN \
             -Dsonar.sources=src/com/example/sqlinjectiontest/Main.java \
             -Dsonar.sources=python/file.py \
