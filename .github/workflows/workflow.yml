@@ -1,88 +1,61 @@
-name: CI Pipeline
+# Nombre del workflow
+name: Various tests w/SonarQube too
 
 on:
   push:
     branches:
-      - dev
-  pull_request:
-    branches:
+      - main
       - dev
 
 jobs:
-  test_python:
+  various_integrated_tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Clonar repositorio
+      - name: Clone repo
         uses: actions/checkout@v2
 
-      - name: Configurar entorno Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Instalar dependencias
-        run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-      - name: Ejecutar pruebas unitarias con pytest
-        run: |
-          if ls | grep -q "test_.*\.py"; then pytest --junitxml=report.xml || true; fi
-
-      - name: Subir reporte de pruebas
-        uses: actions/upload-artifact@v4
-        with:
-          name: reporte-pytest
-          path: report.xml
-
-  static_analysis:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Clonar repositorio
-        uses: actions/checkout@v2
-
-      - name: Configurar entorno Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Instalar flake8
-        run: pip install flake8
-
-      - name: Analizar código con flake8
-        run: flake8 . --count --show-source --statistics || true
-
-  sonar_analysis:
-    runs-on: ubuntu-latest
-    needs: [test_python, static_analysis]
-
-    steps:
-      - name: Clonar repositorio
-        uses: actions/checkout@v2
-
-      - name: Configurar JDK 17
+      - name: Setting JDK 17...
         uses: actions/setup-java@v2
         with:
           java-version: '17'
           distribution: 'zulu'
 
-      - name: Instalar Sonar Scanner
+      - name: Python config.
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Pytest
+        run: pip install pytest
+
+      - name: Run pytests
+        run: | 
+          echo $(pytest -s -v --disable-pytest-warnings python/file.py) > results.txt
+          cat results.txt
+
+      - name: Install Sonar Scanner
         run: |
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
           unzip sonar-scanner-cli-5.0.1.3006-linux.zip
           mv sonar-scanner-5.0.1.3006-linux sonar-scanner
           echo "PATH=$PATH:$(pwd)/sonar-scanner/bin" >> $GITHUB_ENV
 
-      - name: Analizar código en SonarQube
+      - name: Verify SonarQube...
+        run: |
+          sudo curl -I http://rncmr-77-231-9-10.a.free.pinggy.link
+        continue-on-error: true
+
+      - name: Check code in SonarQube...
         env:
           SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }}
         run: |
           sonar-scanner \
-            -Dsonar.projectKey=SQLInjectionTest \
-            -Dsonar.host.url=https://76e4-31-4-242-171.ngrok-free.app \
-            -Dsonar.login=$SONAR_TOKEN \
-            -Dsonar.sources=. \
+            -Dsonar.python.version=3.x \
+            -Dsonar.projectKey=VariosTests \
+            -Dsonar.host.url=http://rncmr-77-231-9-10.a.free.pinggy.link \
+            -Dsonar.token=$MAIN_TOKEN \
+            -Dsonar.sources=src/com/example/sqlinjectiontest/Main.java \
+            -Dsonar.sources=python/file.py \
             -Dsonar.qualitygate.wait=true \
             -X
