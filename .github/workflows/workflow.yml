@@ -71,7 +71,7 @@ jobs:
 
       - name: Run SonarQube scan
         env:
-          SONAR_TOKEN: ${{ secrets.DEV_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.DEV_TOKEN }} # Token for dev branch
         run: |
           sonar-scanner \
             -Dsonar.projectKey=VariosTests \
