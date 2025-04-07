@@ -38,7 +38,7 @@ jobs:
         continue-on-error: true
 
       - name: Run security analysis (bandit) # Ejecuta bandit en busca de vulnerabilidades
-        run: bandit -r python/
+        run: bandit -r python/ -x tests/ -s B101 # Ignora el assert de python (-x tests/ -s B101)
         continue-on-error: true
 
       - name: Run pytests # Ejecuta los pytests
