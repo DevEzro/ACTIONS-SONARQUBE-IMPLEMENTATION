@@ -3,4 +3,3 @@ def test_sum():
     result = a + b
     print(f"{a} + {b} = {result}")
     assert result == 43
-    
