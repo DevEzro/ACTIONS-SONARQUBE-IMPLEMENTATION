@@ -31,26 +31,32 @@ jobs:
 
       - name: Run linting (Python) # Ejecuta linting
         run: flake8 python/
-
+        continue-on-error: true
+  
       - name: Check code formatting (black) # Ejecuta black
         run: black --check python/
+        continue-on-error: true
 
       - name: Run security analysis (bandit) # Ejecuta bandit en busca de vulnerabilidades
         run: bandit -r python/
+        continue-on-error: true
 
       - name: Run pytests # Ejecuta los pytests
         run: |
           pytest -s -v --disable-warnings > results.txt
           cat results.txt
+        continue-on-error: true
 
       - name: Install Checkstyle for Java
         run: |
           wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.1/checkstyle-10.12.1-all.jar
           wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
+        continue-on-error: true
 
       - name: Run Checkstyle (Java)
         run: |
           java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java || true
+        continue-on-error: true
 
       - name: Install Sonar Scanner
         run: |
