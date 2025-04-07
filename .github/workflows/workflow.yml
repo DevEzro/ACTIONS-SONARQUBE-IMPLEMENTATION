@@ -1,4 +1,3 @@
-# Nombre del workflow
 name: Various tests w/SonarQube too
 
 on:
@@ -9,53 +8,70 @@ on:
 
 jobs:
   various_integrated_tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Virtualiza en Ubuntu
 
     steps:
-      - name: Clone repo
+      - name: Clone repo # Clona el repositorio
         uses: actions/checkout@v2
 
-      - name: Setting JDK 17...
+      - name: Setting JDK 17... # Instala y configura Java
         uses: actions/setup-java@v2
         with:
-          java-version: '17'
+          java-version: '17' 
           distribution: 'zulu'
 
-      - name: Python config.
+      - name: Python config. # Instala y configura Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      - name: Install Pytest
-        run: pip install pytest
+      - name: Install dependencies for Python # Instala las librerias de Python a usar
+        run: |
+          pip install pytest flake8 bandit black
 
-      - name: Run pytests
-        run: | 
-          echo $(pytest -s -v --disable-pytest-warnings python/file.py) > results.txt
+      - name: Run linting (Python) # Ejecuta linting
+        run: flake8 python/
+
+      - name: Check code formatting (black) # Ejecuta black
+        run: black --check python/
+
+      - name: Run security analysis (bandit) # Ejecuta bandit en busca de vulnerabilidades
+        run: bandit -r python/
+
+      - name: Run pytests # Ejecuta los pytests
+        run: |
+          pytest -s -v --disable-warnings > results.txt
           cat results.txt
+
+      - name: Install Checkstyle for Java
+        run: |
+          wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.1/checkstyle-10.12.1-all.jar
+          wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
+
+      - name: Run Checkstyle (Java)
+        run: |
+          java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java || true
 
       - name: Install Sonar Scanner
         run: |
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
           unzip sonar-scanner-cli-5.0.1.3006-linux.zip
           mv sonar-scanner-5.0.1.3006-linux sonar-scanner
-          echo "PATH=$PATH:$(pwd)/sonar-scanner/bin" >> $GITHUB_ENV
+          echo "$(pwd)/sonar-scanner/bin" >> $GITHUB_PATH
 
       - name: Verify SonarQube...
         run: |
-          sudo curl -I http://rnwec-77-231-9-10.a.free.pinggy.link
-        continue-on-error: true
+          curl -I http://rncru-31-4-241-126.a.free.pinggy.link || true
 
-      - name: Check code in SonarQube...
+      - name: Run SonarQube scan
         env:
-          SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.DEV_TOKEN }}
         run: |
           sonar-scanner \
-            -Dsonar.python.version=3.x \
             -Dsonar.projectKey=VariosTests \
-            -Dsonar.host.url=http://rnwec-77-231-9-10.a.free.pinggy.link \
-            -Dsonar.token=$MAIN_TOKEN \
-            -Dsonar.sources=src/com/example/sqlinjectiontest/Main.java \
-            -Dsonar.sources=python/file.py \
+            -Dsonar.host.url=hhttp://rncru-31-4-241-126.a.free.pinggy.link \
+            -Dsonar.token=SONAR_TOKEN \
+            -Dsonar.sources=python,src \
+            -Dsonar.python.version=3.x \
             -Dsonar.qualitygate.wait=true \
             -X
