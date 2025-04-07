@@ -67,7 +67,7 @@ jobs:
 
       - name: Verify SonarQube...
         run: |
-          curl -I http://rncru-31-4-241-126.a.free.pinggy.link || true
+          curl -I http://rnobp-31-4-242-224.a.free.pinggy.link || true
 
       - name: Run SonarQube scan
         env:
@@ -75,7 +75,7 @@ jobs:
         run: |
           sonar-scanner \
             -Dsonar.projectKey=VariosTests \
-            -Dsonar.host.url=hhttp://rncru-31-4-241-126.a.free.pinggy.link \
+            -Dsonar.host.url=http://rnobp-31-4-242-224.a.free.pinggy.link \
             -Dsonar.token=SONAR_TOKEN \
             -Dsonar.sources=python,src \
             -Dsonar.python.version=3.x \
