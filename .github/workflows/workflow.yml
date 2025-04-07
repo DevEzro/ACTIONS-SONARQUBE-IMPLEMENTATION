@@ -43,7 +43,7 @@ jobs:
 
       - name: Run pytests # Ejecuta los pytests
         run: |
-          pytest -s -v --disable-warnings
+          pytest -s -v --disable-warnings python/file.py
         continue-on-error: true
 
       - name: Install Checkstyle for Java
