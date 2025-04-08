@@ -66,15 +66,15 @@ jobs:
 
       - name: Verify SonarQube...
         run: |
-          curl -I http://rnrzo-79-112-14-86.a.free.pinggy.link || true
+          curl -I http://rnoib-77-211-5-134.a.free.pinggy.link || true
 
       - name: Run SonarQube scan
         env:
-          SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }} # Token for dev branch
+          SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }} # Token for main branch
         run: |
           sonar-scanner \
             -Dsonar.projectKey=VariosTests \
-            -Dsonar.host.url=http://rnrzo-79-112-14-86.a.free.pinggy.link \
+            -Dsonar.host.url=http://rnoib-77-211-5-134.a.free.pinggy.link \
             -Dsonar.token=${{ secrets.MAIN_TOKEN }} \
             -Dsonar.sources=python,src \
             -Dsonar.python.version=3.x \
