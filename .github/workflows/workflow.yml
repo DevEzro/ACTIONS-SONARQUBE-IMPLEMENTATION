@@ -1,4 +1,4 @@
-name: Repo Tests - pytest, security & quality
+name: Repo Tests - pytest, security & quality # Nombre del workflow
 
 on: # Eventos que activan el workflow
   push: # Al hacer un push en las siguientes ramas
