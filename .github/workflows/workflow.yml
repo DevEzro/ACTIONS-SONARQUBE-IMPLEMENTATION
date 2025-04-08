@@ -45,7 +45,13 @@ jobs: # Conjunto de las tareas
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
           unzip sonar-scanner-cli-5.0.1.3006-linux.zip
           mv sonar-scanner-5.0.1.3006-linux sonar-scanner
-          echo "$(pwd)/sonar-scanner/bin" >> $GITHUB_PATH
+          echo "$(pwd)/sonar-scanner/bin" >> $GITHUB_PATH # Añade la ruta al PATH
+          sonar-scanner -v  # Verifica si Sonar Scanner está instalado correctamente
+
+      - name: Check if sonar-scanner is available
+        run: |
+          echo $PATH
+          sonar-scanner -v
 
       - name: Mark setup as complete # Marca que el setup ha terminado
         id: setup-complete
