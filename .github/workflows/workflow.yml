@@ -7,94 +7,76 @@ on:
       - dev
 
 jobs:
-  repo-tests:
-    runs-on: ubuntu-latest
+  various_integrated_tests:
+    runs-on: ubuntu-latest # Virtualiza en Ubuntu
+
     steps:
-      #region Setup
-      - name: Clone repo
+      - name: Clone repo # Clona el repositorio
         uses: actions/checkout@v2
 
-      - name: Setting JDK 17
+      - name: Setting JDK 17... # Instala y configura Java
         uses: actions/setup-java@v2
         with:
-          java-version: '17'
+          java-version: '17' 
           distribution: 'zulu'
 
-      - name: Python config
+      - name: Python config. # Instala y configura Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      - name: Install dependencies for Python
+      - name: Install dependencies for Python # Instala las librerias de Python a usar
         run: |
           pip install pytest flake8 bandit black
-      
+
+      - name: Run linting (Python) # Ejecuta linting
+        run: flake8 python/
+        continue-on-error: true
+  
+      - name: Check code formatting (black) # Ejecuta black
+        run: black --check python/
+        continue-on-error: true
+
+      - name: Run security analysis (bandit) # Ejecuta bandit en busca de vulnerabilidades
+        run: bandit -r python/ -x tests/ -s B101 # Ignora el assert de python (-x tests/ -s B101)
+        continue-on-error: true
+
+      - name: Run pytests # Ejecuta los pytests
+        run: |
+          pytest -s -v --disable-warnings python/file.py
+        continue-on-error: true
+
       - name: Install Checkstyle for Java
         run: |
           wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.1/checkstyle-10.12.1-all.jar
           wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
+        continue-on-error: true
+
+      - name: Run Checkstyle (Java)
+        run: |
+          java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java || true
+        continue-on-error: true
 
       - name: Install Sonar Scanner
-        id: export-path
         run: |
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
           unzip sonar-scanner-cli-5.0.1.3006-linux.zip
           mv sonar-scanner-5.0.1.3006-linux sonar-scanner
           echo "$(pwd)/sonar-scanner/bin" >> $GITHUB_PATH
-          echo "$(pwd)/sonar-scanner/bin"
-      #endregion
 
-      #region Quality checks
-      - name: Clone repo
-        uses: actions/checkout@v2
-
-      - name: RUN - linting (Python)
-        run: flake8 python/
-        continue-on-error: true
-
-      - name: RUN - Check code formatting (black)
-        run: black --check python/
-        continue-on-error: true
-
-      - name: RUN - Checkstyle (Java)
+      - name: Verify SonarQube...
         run: |
-          java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java || true
-        continue-on-error: true
-      #endregion
+          curl -I http://rnosi-77-211-5-145.a.free.pinggy.link || true
 
-      #region Security checks
-      - name: Clone repo
-        uses: actions/checkout@v2
-
-      - name: RUN - security analysis (bandit)
-        run: bandit -r python/ -x tests/ -s B101
-        continue-on-error: true
-      #endregion
-
-      #region Unit tests
-      - name: Clone repo
-        uses: actions/checkout@v2
-
-      - name: RUN - pytests
-        run: |
-          pytest -s -v --disable-warnings python/file.py
-        continue-on-error: true
-      #endregion
-
-      #region SonarQube scan
-      - name: Clone repo
-        uses: actions/checkout@v2
-
-      - name: RUN - SonarQube scan
+      - name: Run SonarQube scan
         env:
-          SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }} # Token for main branch
         run: |
           sonar-scanner \
             -Dsonar.projectKey=VariosTests \
-            -Dsonar.host.url=http://rnbgz-77-211-5-145.a.free.pinggy.link \
+            -Dsonar.host.url=http://rnosi-77-211-5-145.a.free.pinggy.link \
             -Dsonar.token=${{ secrets.MAIN_TOKEN }} \
             -Dsonar.sources=python,src \
             -Dsonar.python.version=3.x \
             -Dsonar.qualitygate.wait=true \
             -X
-      #endregion
