@@ -70,12 +70,12 @@ jobs:
 
       - name: Run SonarQube scan
         env:
-          SONAR_TOKEN: ${{ secrets.DEV_TOKEN }} # Token for dev branch
+          SONAR_TOKEN: ${{ secrets.FEATURE_TOKEN }} # Token for feature branch
         run: |
           sonar-scanner \
             -Dsonar.projectKey=VariosTests \
             -Dsonar.host.url=http://rncxa-79-112-14-86.a.free.pinggy.link \
-            -Dsonar.token=${{ secrets.DEV_TOKEN }} \
+            -Dsonar.token=${{ secrets.FEATURE_TOKEN }} \
             -Dsonar.sources=python,src \
             -Dsonar.python.version=3.x \
             -Dsonar.qualitygate.wait=true \
