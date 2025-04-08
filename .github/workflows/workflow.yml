@@ -46,6 +46,7 @@ jobs:
           curl -I http://rnbgz-77-211-5-145.a.free.pinggy.link || true
   
   tests-execution:
+    runs-on: ubuntu-latest
     steps:      
       - name: RUN - linting (Python) # Ejecuta linting
         run: flake8 python/
