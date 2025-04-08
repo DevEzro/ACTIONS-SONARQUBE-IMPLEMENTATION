@@ -1,17 +1,20 @@
-name: Various tests w/SonarQube too
+name: Repo Tests - pytest, security & quality # Nombre del workflow
 
-on:
-  push:
+on: # Eventos que activan el workflow
+  push: # Al hacer un push en las siguientes ramas
     branches:
       - main
       - dev
       - feature
 
-jobs:
-  various_integrated_tests:
+env: # Variables de entorno
+  SONAR_TOKEN: ${{ secrets.FEATURE_TOKEN }} # Token for main branch
+
+jobs: # Conjunto de las tareas
+  repo-tests: # Nombre de la tarea (job)
     runs-on: ubuntu-latest # Virtualiza en Ubuntu
 
-    steps:
+    steps: # Pasos de la tarea
       - name: Clone repo # Clona el repositorio
         uses: actions/checkout@v2
 
@@ -67,15 +70,13 @@ jobs:
 
       - name: Verify SonarQube...
         run: |
-          curl -I http://rnfpx-77-211-5-134.a.free.pinggy.link || true
+          curl -I http://rnzuy-77-211-5-145.a.free.pinggy.link || true
 
       - name: Run SonarQube scan
-        env:
-          SONAR_TOKEN: ${{ secrets.FEATURE_TOKEN }} # Token for feature branch
         run: |
           sonar-scanner \
             -Dsonar.projectKey=VariosTests \
-            -Dsonar.host.url=http://rnfpx-77-211-5-134.a.free.pinggy.link \
+            -Dsonar.host.url=http://rnzuy-77-211-5-145.a.free.pinggy.link \
             -Dsonar.token=${{ secrets.FEATURE_TOKEN }} \
             -Dsonar.sources=python,src \
             -Dsonar.python.version=3.x \
