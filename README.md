@@ -7,10 +7,11 @@
 
 <br>
 
-## 💭 PASO 2 - NGROK (OPCIONAL)
+## 💭 PASO 2 - ALOJAMIENTO (NGROK, PINGGY, SERVIDOR...)
 - [Ngrok download](https://download.ngrok.com/downloads/windows)
 - [Autenticarse en CMD](https://dashboard.ngrok.com/get-started/your-authtoken)
 
+[Pinggy (Instrucciones en la página)](https://pinggy.io)
 <br>
 
 ## 🔐 PASO 3 - SONARQUBE TOKEN
