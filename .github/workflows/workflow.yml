@@ -9,6 +9,8 @@ on:
 jobs:
   setup-tools:
     runs-on: ubuntu-latest
+    outputs:
+      sonar-scanner-path: ${{ steps.export-path.outputs.path }}
     steps:
       - name: Clone repo
         uses: actions/checkout@v2
@@ -34,15 +36,13 @@ jobs:
           wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
 
       - name: Install Sonar Scanner
+        id: export-path
         run: |
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
           unzip sonar-scanner-cli-5.0.1.3006-linux.zip
           mv sonar-scanner-5.0.1.3006-linux sonar-scanner
           echo "$(pwd)/sonar-scanner/bin" >> $GITHUB_PATH
-
-      - name: Verify SonarQube
-        run: |
-          curl -I http://rnbgz-77-211-5-145.a.free.pinggy.link || true
+          echo "$(pwd)/sonar-scanner/bin"
 
   quality-checks:
     runs-on: ubuntu-latest
