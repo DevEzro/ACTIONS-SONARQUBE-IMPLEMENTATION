@@ -10,11 +10,9 @@ env: # Variables de entorno
   SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }} # Token for main branch
 
 jobs: # Conjunto de las tareas
-
-  setup-environment: # Job de configuración del entorno
+  repo-tests: # Nombre de la tarea (job)
     runs-on: ubuntu-latest # Virtualiza en Ubuntu
-    outputs: # Salida para compartir entre jobs (si hiciera falta en un futuro)
-      setup-done: ${{ steps.setup-complete.outputs.success }}
+
     steps: # Pasos de la tarea
       - name: Clone repo # Clona el repositorio
         uses: actions/checkout@v2
@@ -22,7 +20,7 @@ jobs: # Conjunto de las tareas
       - name: Setting JDK 17... # Instala y configura Java
         uses: actions/setup-java@v2
         with:
-          java-version: '17'
+          java-version: '17' 
           distribution: 'zulu'
 
       - name: Python config. # Instala y configura Python
@@ -30,45 +28,14 @@ jobs: # Conjunto de las tareas
         with:
           python-version: '3.x'
 
-      - name: Install dependencies for Python # Instala las librerías de Python a usar
+      - name: Install dependencies for Python # Instala las librerias de Python a usar
         run: |
           pip install pytest flake8 bandit black
-
-      - name: Install Checkstyle for Java
-        run: |
-          wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.1/checkstyle-10.12.1-all.jar
-          wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
-        continue-on-error: true
-
-      - name: Install Sonar Scanner
-        run: |
-          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
-          unzip sonar-scanner-cli-5.0.1.3006-linux.zip
-          mv sonar-scanner-5.0.1.3006-linux sonar-scanner
-          echo "$(pwd)/sonar-scanner/bin" >> $GITHUB_PATH # Añade la ruta al PATH
-          sonar-scanner -v  # Verifica si Sonar Scanner está instalado correctamente
-
-      - name: Check if sonar-scanner is available
-        run: |
-          echo $PATH
-          sonar-scanner -v
-
-      - name: Mark setup as complete # Marca que el setup ha terminado
-        id: setup-complete
-        run: echo "success=true" >> $GITHUB_OUTPUT
-
-  run-tests: # Job de pruebas y análisis
-    runs-on: ubuntu-latest # Virtualiza en Ubuntu
-    needs: setup-environment # Espera a que termine el setup
-
-    steps: # Pasos de la tarea
-      - name: Clone repo # Clona el repositorio
-        uses: actions/checkout@v2
 
       - name: Run linting (Python) # Ejecuta linting
         run: flake8 python/
         continue-on-error: true
-
+  
       - name: Check code formatting (black) # Ejecuta black
         run: black --check python/
         continue-on-error: true
@@ -82,12 +49,25 @@ jobs: # Conjunto de las tareas
           pytest -s -v --disable-warnings python/file.py
         continue-on-error: true
 
+      - name: Install Checkstyle for Java
+        run: |
+          wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.1/checkstyle-10.12.1-all.jar
+          wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
+        continue-on-error: true
+
       - name: Run Checkstyle (Java)
         run: |
           java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java || true
         continue-on-error: true
 
-      - name: Verify SonarQube... # Comprueba si el servidor está accesible
+      - name: Install Sonar Scanner
+        run: |
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+          unzip sonar-scanner-cli-5.0.1.3006-linux.zip
+          mv sonar-scanner-5.0.1.3006-linux sonar-scanner
+          echo "$(pwd)/sonar-scanner/bin" >> $GITHUB_PATH
+
+      - name: Verify SonarQube...
         run: |
           curl -I http://rnzuy-77-211-5-145.a.free.pinggy.link || true
 
