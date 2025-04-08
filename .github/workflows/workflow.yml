@@ -7,9 +7,8 @@ on:
       - dev
 
 jobs:
-  various_integrated_tests:
+  setup-tools:
     runs-on: ubuntu-latest # Virtualiza en Ubuntu
-
     steps:
       - name: Clone repo # Clona el repositorio
         uses: actions/checkout@v2
@@ -28,33 +27,11 @@ jobs:
       - name: Install dependencies for Python # Instala las librerias de Python a usar
         run: |
           pip install pytest flake8 bandit black
-
-      - name: Run linting (Python) # Ejecuta linting
-        run: flake8 python/
-        continue-on-error: true
-  
-      - name: Check code formatting (black) # Ejecuta black
-        run: black --check python/
-        continue-on-error: true
-
-      - name: Run security analysis (bandit) # Ejecuta bandit en busca de vulnerabilidades
-        run: bandit -r python/ -x tests/ -s B101 # Ignora el assert de python (-x tests/ -s B101)
-        continue-on-error: true
-
-      - name: Run pytests # Ejecuta los pytests
-        run: |
-          pytest -s -v --disable-warnings python/file.py
-        continue-on-error: true
-
+      
       - name: Install Checkstyle for Java
         run: |
           wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.1/checkstyle-10.12.1-all.jar
           wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
-        continue-on-error: true
-
-      - name: Run Checkstyle (Java)
-        run: |
-          java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java || true
         continue-on-error: true
 
       - name: Install Sonar Scanner
@@ -66,15 +43,38 @@ jobs:
 
       - name: Verify SonarQube...
         run: |
-          curl -I http://rnosi-77-211-5-145.a.free.pinggy.link || true
+          curl -I http://rnbgz-77-211-5-145.a.free.pinggy.link || true
+  
+  tests-execution:
+      - name: RUN - linting (Python) # Ejecuta linting
+        run: flake8 python/
+        continue-on-error: true
+  
+      - name: RUN - Check code formatting (black) # Ejecuta black
+        run: black --check python/
+        continue-on-error: true
 
-      - name: Run SonarQube scan
+      - name: RUN - security analysis (bandit) # Ejecuta bandit en busca de vulnerabilidades
+        run: bandit -r python/ -x tests/ -s B101 # Ignora el assert de python (-x tests/ -s B101)
+        continue-on-error: true
+
+      - name: RUN - pytests # Ejecuta los pytests
+        run: |
+          pytest -s -v --disable-warnings python/file.py
+        continue-on-error: true
+
+      - name: RUN - Checkstyle (Java)
+        run: |
+          java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java || true
+        continue-on-error: true
+
+      - name: RUN - SonarQube scan
         env:
           SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }} # Token for main branch
         run: |
           sonar-scanner \
             -Dsonar.projectKey=VariosTests \
-            -Dsonar.host.url=http://rnosi-77-211-5-145.a.free.pinggy.link \
+            -Dsonar.host.url=http://rnbgz-77-211-5-145.a.free.pinggy.link \
             -Dsonar.token=${{ secrets.MAIN_TOKEN }} \
             -Dsonar.sources=python,src \
             -Dsonar.python.version=3.x \
