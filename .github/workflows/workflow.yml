@@ -1,4 +1,4 @@
-name: Various tests w/SonarQube too
+name: Various tests w/SQL Injection
 
 on:
   push:
@@ -66,7 +66,7 @@ jobs:
 
       - name: Verify SonarQube...
         run: |
-          curl -I http://rnoib-77-211-5-134.a.free.pinggy.link || true
+          curl -I http://rnkyy-77-211-5-134.a.free.pinggy.link || true
 
       - name: Run SonarQube scan
         env:
@@ -74,7 +74,7 @@ jobs:
         run: |
           sonar-scanner \
             -Dsonar.projectKey=VariosTests \
-            -Dsonar.host.url=http://rnoib-77-211-5-134.a.free.pinggy.link \
+            -Dsonar.host.url=http://rnkyy-77-211-5-134.a.free.pinggy.link \
             -Dsonar.token=${{ secrets.MAIN_TOKEN }} \
             -Dsonar.sources=python,src \
             -Dsonar.python.version=3.x \
