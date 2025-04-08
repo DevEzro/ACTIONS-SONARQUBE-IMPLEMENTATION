@@ -1,16 +1,19 @@
-name: Various tests w/SQL Injection
+name: Repo Tests: pytest, security & quality
 
-on:
-  push:
+on: # Eventos que activan el workflow
+  push: # Al hacer un push en las siguientes ramas
     branches:
       - main
       - dev
 
-jobs:
-  various_integrated_tests:
+env: # Variables de entorno
+  SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }} # Token for main branch
+
+jobs: # Conjunto de las tareas
+  repo-tests: # Nombre de la tarea (job)
     runs-on: ubuntu-latest # Virtualiza en Ubuntu
 
-    steps:
+    steps: # Pasos de la tarea
       - name: Clone repo # Clona el repositorio
         uses: actions/checkout@v2
 
@@ -69,8 +72,6 @@ jobs:
           curl -I http://rnosi-77-211-5-145.a.free.pinggy.link || true
 
       - name: Run SonarQube scan
-        env:
-          SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }} # Token for main branch
         run: |
           sonar-scanner \
             -Dsonar.projectKey=VariosTests \
