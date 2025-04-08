@@ -3,9 +3,9 @@ name: Repo Tests - pytest, security & quality # Nombre del workflow
 on: # Eventos que activan el workflow
   push: # Al hacer un push en las siguientes ramas
     branches:
-      - main
-      - dev
-      - feature
+      # - main
+      # - dev
+      # - feature
 
 env: # Variables de entorno
   SONAR_TOKEN: ${{ secrets.FEATURE_TOKEN }} # Token for main branch
