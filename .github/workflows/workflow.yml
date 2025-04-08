@@ -7,7 +7,7 @@ on:
       - dev
 
 jobs:
-  Repo tests:
+  repo-tests:
     runs-on: ubuntu-latest
     steps:
       #region Setup
@@ -43,7 +43,7 @@ jobs:
           echo "$(pwd)/sonar-scanner/bin" >> $GITHUB_PATH
           echo "$(pwd)/sonar-scanner/bin"
       #endregion
-      
+
       #region Quality checks
       - name: Clone repo
         uses: actions/checkout@v2
