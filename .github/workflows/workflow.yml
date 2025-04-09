@@ -36,20 +36,23 @@ jobs: # Conjunto de las tareas
 
     - name: 🚀 Ejecutando Checkstyle (Java)...
       run: |
-        mkdir -p ../../${{ env.RESULTS_DIR }}/java
-        java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java > ../../${{ env.RESULTS_DIR }}/java/java-output.txt 2>&1 || true
+            mkdir -p ${{ env.RESULTS_DIR }}/java
+            java -cp build_temp com.example.sqlinjectiontest.Main | tee ${{ env.RESULTS_DIR }}/java/java-output.txt || true
       continue-on-error: true
 
     - name: 🛠️ Compilando código Java...
       run: |
-        mkdir -p ${{ env.RESULTS_DIR }}/java
-        javac ${{ env.JAVA_SRC }}/Main.java -d ${{ env.RESULTS_DIR }}/java
+        mkdir -p temp_build
+        javac ${{ env.JAVA_SRC }}/Main.java -d build_temp
       continue-on-error: true
 
     - name: 🚀 Ejecutando código Java...
       run: |
-        cd ${{ env.RESULTS_DIR }}/java
+        mkdir ${{ env.RESULTS_DIR }}/java
         java -cp . com.example.sqlinjectiontest.Main | tee ../../${{ env.RESULTS_DIR }}/java/java-output.txt || true
+
+    - name: 🫧 Limpiando archivos temporales de Java...
+      run: rm -rf build_temp
 
     # ------------ PYTHON TESTS ------------
     - name: 🐍 Configurando Python... # Instala y configura Python
