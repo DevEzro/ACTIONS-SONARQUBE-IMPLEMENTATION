@@ -41,12 +41,15 @@ jobs: # Conjunto de las tareas
 
     - name: 🛠️ Compilando código Java...
       run: |
-        mkdir -p ${{ env.RESULTS_DIR }}/java/com/example/sqlinjectiontest
-        javac ${{ env.JAVA_SRC }}/Main.java -d ${{ env.RESULTS_DIR }}/java
+        mkdir -p build
+        javac ${{ env.JAVA_SRC }}/Main.java -d build
       continue-on-error: true
 
     - name: 🚀 Ejecutando código Java...
-      run: java -cp results/java com.example.sqlinjectiontest.Main | tee results/java/java-output.txt || true
+      run: java -cp build com.example.sqlinjectiontest.Main | tee ${{ env.RESULTS_DIR}}/java/java-output.txt || true
+
+    - name: 🧹 Limpiando compilados...
+      run: rm -rf build
 
     # ------------ PYTHON TESTS ------------
     - name: 🐍 Configurando Python... # Instala y configura Python
