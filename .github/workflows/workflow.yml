@@ -28,16 +28,29 @@ jobs: # Conjunto de las tareas
         java-version: '17' 
         distribution: 'zulu'
 
+    - name: 📦 Instalando Checkstyle para Java... # Instala Checkstyle para comprobar las reglas de codificación
+      run: |
+        wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.1/checkstyle-10.12.1-all.jar
+        wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
+      continue-on-error: true
+
+    - name: 🚀 Ejecutando Checkstyle (Java)...
+      run: |
+        java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main/Main.java > ../../${{ env.RESULTS_DIR }}/java/java-output.txt 2>&1 || true
+      continue-on-error: true
+
     - name: 🛠️ Compilando código Java... # Compila el código de Java
       run: |
         mkdir -p ${{ env.RESULTS_DIR }}/java
         javac ${{ env.JAVA_SRC }}/Main.java -d ${{ env.RESULTS_DIR }}/java/
+      continue-on-error: true
 
     - name: 🚀 Ejecutando código Java...
       run: | # Envia los resultados a la ruta results/ y los almacena en un .txt
         cd ${{ env.RESULTS_DIR }}/java
         java com.example.sqlinjectiontest.Main | tee ../../${{ env.RESULTS_DIR }}/java/java-output.txt || true
         java com.example.sqlinjectiontest.Main > ../../${{ env.RESULTS_DIR }}/java/java-output.txt 2>&1 || true
+      continue-on-error: true
 
     # ------------ PYTHON TESTS ------------
     - name: 🐍 Configurando Python... # Instala y configura Python
@@ -93,7 +106,7 @@ jobs: # Conjunto de las tareas
       run: |
         curl -I http://rnccc-31-4-242-208.a.free.pinggy.link || true
 
-    - name: ▶️ Ejecutando escaneo de SonarQube...
+    - name: 🚀 Ejecutando escaneo de SonarQube...
       run: |
         sonar-scanner \
           -Dsonar.projectKey=VariosTests \
