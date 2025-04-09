@@ -1,6 +1,6 @@
 name: CI - Java & Python Build and Test
 
-on:
+on: # Eventos que activan el workflow
   push:
     branches:
       - main
@@ -9,40 +9,38 @@ on:
 
 env: # Variables de entorno
   SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }} # Token for main branch
+  JAVA_SRC: src/com/example/sqlinjectiontest
+  PYTHON_DIR: python
+  RESULTS_DIR: results
 
-jobs:
-  build-test:
-    runs-on: ubuntu-latest
+jobs: # Conjunto de las tareas
+  build-test: # Nombre de la tarea (job)
+    runs-on: ubuntu-latest # Virtualiza en Ubuntu
 
-    env:
-      JAVA_SRC: src/com/example/sqlinjectiontest
-      PYTHON_DIR: python
-      RESULTS_DIR: results
-
-    steps:
+    steps: # Pasos de la tarea
     - name: 📥 Checkout code
       uses: actions/checkout@v4
 
     # ------------ JAVA BUILD & TEST ------------
-    - name: ☕ Set up JDK 17 # Instala y configura Java TEMURIN
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+    # - name: ☕ Set up JDK 17 # Instala y configura Java - TEMURIN
+    #   uses: actions/setup-java@v4
+    #   with:
+    #     distribution: 'temurin'
+    #     java-version: '17'
 
-    - name: ☕ Setting JDK 17... # Instala y configura Java ZULU
+    - name: ☕ Setting JDK 17... # Instala y configura Java - ZULU
       uses: actions/setup-java@v2
       with:
         java-version: '17' 
         distribution: 'zulu'
 
-    - name: 🛠️ Compile Java code
+    - name: 🛠️ Compile Java code # Compila el código de Java
       run: |
         mkdir -p ${{ env.RESULTS_DIR }}/java
         javac ${{ env.JAVA_SRC }}/Main.java -d ${{ env.RESULTS_DIR }}/java/
 
     - name: 🚀 Run Java main (if it has a main method)
-      run: |
+      run: | # Envia los resultados a la ruta results/ y los almacena en un .txt
         cd ${{ env.RESULTS_DIR }}/java
         java com.example.sqlinjectiontest.Main | tee ../../${{ env.RESULTS_DIR }}/java/java-output.txt || true
 
@@ -56,9 +54,24 @@ jobs:
       run: |
         pip install pytest flake8 bandit black
 
+    - name: ✏️ Check code styles (flake8) # Ejecuta flake8
+      run: |
+        mkdir -p ${{ env.RESULTS_DIR }}/python
+        flake8 python/ | tee ${{ env.RESULTS_DIR }}/python/pytest-output.txt
+      continue-on-error: true
+  
+    - name: 📊 Check code formatting (black) # Ejecuta black
+      run: black --check python/ | tee ${{ env.RESULTS_DIR }}/python/pytest-output.txt
+      continue-on-error: true
+
+    - name: 🕵🏻‍♂️ Run security analysis (bandit) # Ejecuta bandit en busca de vulnerabilidades
+      run: bandit -r python/ -x tests/ -s B101 | tee ${{ env.RESULTS_DIR }}/python/pytest-output.txt # Ignora el assert de python (-x tests/ -s B101)
+      continue-on-error: true
+
     - name: 🧪 Run pytests # Ejecuta los pytests
       run: |
-        pytest -s -v --disable-warnings python/file.py
+        mkdir -p ${{ env.RESULTS_DIR }}/python
+        pytest -s -v --disable-warnings python/file.py | tee ${{ env.RESULTS_DIR }}/python/pytest-output.txt
       continue-on-error: true
       
     # ------------ ARTIFACTS ------------
@@ -73,7 +86,6 @@ jobs:
       run: |
         echo "✅ Java and Python tasks completed."
         echo "📄 Outputs stored in 'results/' and uploaded as artifacts."
-
 
     - name: 📦 Install Sonar Scanner
       run: |
