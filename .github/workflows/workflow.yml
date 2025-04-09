@@ -75,18 +75,18 @@ jobs:
         echo "📄 Outputs stored in 'results/' and uploaded as artifacts."
 
 
-    - name: Install Sonar Scanner
+    - name: 🐋Install Sonar Scanner
       run: |
         wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
         unzip sonar-scanner-cli-5.0.1.3006-linux.zip
         mv sonar-scanner-5.0.1.3006-linux sonar-scanner
         echo "$(pwd)/sonar-scanner/bin" >> $GITHUB_PATH
 
-    - name: Verify SonarQube...
+    - name: ☑️Verify SonarQube...
       run: |
         curl -I http://rnghg-31-4-242-208.a.free.pinggy.link || true
 
-    - name: Run SonarQube scan
+    - name: 🐳Run SonarQube scan
       run: |
         sonar-scanner \
           -Dsonar.projectKey=VariosTests \
