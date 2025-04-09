@@ -28,11 +28,10 @@ jobs: # Conjunto de las tareas
         java-version: '17' 
         distribution: 'zulu'
 
-    - name: 📦 Instalando Checkstyle para Java... # Instala Checkstyle para comprobar las reglas de codificación
+    - name: 📦 Instalando Checkstyle para Java...
       run: |
         wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.1/checkstyle-10.12.1-all.jar
-        wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
-      continue-on-error: true
+        wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/checkstyle-10.12.1/src/main/resources/google_checks.xml
 
     - name: 🚀 Ejecutando Checkstyle (Java)...
       run: |
