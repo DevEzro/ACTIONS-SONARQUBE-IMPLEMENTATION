@@ -35,8 +35,8 @@ jobs: # Conjunto de las tareas
 
     - name: 🚀 Ejecutando Checkstyle (Java)...
       run: |
-        mkdir -p ../../${{ env.RESULTS_DIR }}/java
-        java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java | tee ../../${{ env.RESULTS_DIR }}/java/checkstyle-output.txt || true
+        mkdir -p ${{ env.RESULTS_DIR }}/java
+        java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java | tee ${{ env.RESULTS_DIR }}/java/checkstyle-output.txt || true
       continue-on-error: true
 
     - name: 🛠️ Compilando código Java...
@@ -46,9 +46,7 @@ jobs: # Conjunto de las tareas
       continue-on-error: true
 
     - name: 🚀 Ejecutando código Java...
-      run: |
-        cd ${{ env.RESULTS_DIR }}/java
-        java -cp . com.example.sqlinjectiontest.Main | tee ../../${{ env.RESULTS_DIR }}/java/java-output.txt || true
+      run: java -cp results/java com.example.sqlinjectiontest.Main | tee results/java/java-output.txt || true
 
     # ------------ PYTHON TESTS ------------
     - name: 🐍 Configurando Python... # Instala y configura Python
