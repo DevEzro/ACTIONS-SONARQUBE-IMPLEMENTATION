@@ -2,9 +2,10 @@ name: CI - Java & Python Build and Test
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
+      - dev
+      - feature
 
 env: # Variables de entorno
   SONAR_TOKEN: ${{ secrets.FEATURE_TOKEN }} # Token for main branch
