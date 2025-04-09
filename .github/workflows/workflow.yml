@@ -42,7 +42,7 @@ jobs: # Conjunto de las tareas
 
     - name: 🛠️ Compilando código Java...
       run: |
-        mkdir -p ${{ env.RESULTS_DIR }}/java/com/example/sqlinjectiontest
+        mkdir -p ${{ env.RESULTS_DIR }}/java
         javac ${{ env.JAVA_SRC }}/Main.java -d ${{ env.RESULTS_DIR }}/java
       continue-on-error: true
 
