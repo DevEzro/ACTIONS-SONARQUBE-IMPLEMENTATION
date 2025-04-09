@@ -9,7 +9,7 @@ on: # Eventos que activan el workflow
 
 env: # Variables de entorno
   SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }} # Token for main branch
-  JAVA_SRC: src/com/example/sqlinjectiontest/Main # Directorio del fichero Main.java
+  JAVA_SRC: src/com/example/sqlinjectiontest # Directorio del fichero Main.java
   PYTHON_DIR: python # Directorio del fichero file.py
   RESULTS_DIR: results # Directorio de los resultados
 
@@ -36,21 +36,21 @@ jobs: # Conjunto de las tareas
 
     - name: 🚀 Ejecutando Checkstyle (Java)...
       run: |
-        java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main/Main.java > ../../${{ env.RESULTS_DIR }}/java/java-output.txt 2>&1 || true
+        java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java > ../../${{ env.RESULTS_DIR }}/java/java-output.txt 2>&1 || true
       continue-on-error: true
 
-    - name: 🛠️ Compilando código Java... # Compila el código de Java
+    - name: 🛠️ Compilando código Java...
       run: |
-        mkdir -p ${{ env.RESULTS_DIR }}/java
-        javac ${{ env.JAVA_SRC }}/Main.java -d ${{ env.RESULTS_DIR }}/java/
+        mkdir -p ${{ env.RESULTS_DIR }}/java/com/example/sqlinjectiontest
+        javac ${{ env.JAVA_SRC }}/Main.java -d ${{ env.RESULTS_DIR }}/java
       continue-on-error: true
+
 
     - name: 🚀 Ejecutando código Java...
-      run: | # Envia los resultados a la ruta results/ y los almacena en un .txt
+      run: |
         cd ${{ env.RESULTS_DIR }}/java
         java com.example.sqlinjectiontest.Main | tee ../../${{ env.RESULTS_DIR }}/java/java-output.txt || true
-        java com.example.sqlinjectiontest.Main > ../../${{ env.RESULTS_DIR }}/java/java-output.txt 2>&1 || true
-      continue-on-error: true
+
 
     # ------------ PYTHON TESTS ------------
     - name: 🐍 Configurando Python... # Instala y configura Python
