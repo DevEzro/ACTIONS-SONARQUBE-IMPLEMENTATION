@@ -37,7 +37,7 @@ jobs: # Conjunto de las tareas
     - name: 🚀 Ejecutando Checkstyle (Java)...
       run: |
         mkdir -p ../../${{ env.RESULTS_DIR }}/java
-        java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java > ../../${{ env.RESULTS_DIR }}/java/java-output.txt 2>&1 || true
+        java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java | tee ../../${{ env.RESULTS_DIR }}/java/checkstyle-output.txt || true
       continue-on-error: true
 
     - name: 🛠️ Compilando código Java...
