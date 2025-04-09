@@ -65,19 +65,6 @@ jobs: # Conjunto de las tareas
     - name: 🧹 Limpiando compilados...
       run: rm -rf build
 
-    # ------------ CODE CLIMATE ------------
-    - name: 🔍 Instalando Code Climate CLI...
-      run: |
-        curl -L https://github.com/codeclimate/codeclimate/archive/refs/tags/v0.85.2.tar.gz -o codeclimate.tar.gz
-        tar -xzf codeclimate.tar.gz
-        sudo cp codeclimate-0.85.2/bin/codeclimate /usr/local/bin/
-        chmod +x /usr/local/bin/codeclimate
-
-    - name: 🚦 Ejecutando Code Climate (análisis estático)...
-      run: |
-        codeclimate analyze || true
-      continue-on-error: true
-
     # ------------ PYTHON TESTS ------------
     - name: 🐍 Configurando Python... # Instala y configura Python
       uses: actions/setup-python@v4
