@@ -1,4 +1,4 @@
-name: CI - Java & Python Build and Test
+name: CI-CD-SONARQUBE-TEST # Nombre del workflow
 
 on: # Eventos que activan el workflow
   push:
