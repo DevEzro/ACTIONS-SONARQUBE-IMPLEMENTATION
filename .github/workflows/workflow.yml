@@ -73,7 +73,7 @@ jobs: # Conjunto de las tareas
 
     - name: 📦 Instalando las dependencias para Python... # Instala las librerias de Python a usar
       run: |
-        pip install pytest flake8 bandit black
+        pip install pytest flake8 bandit black requests uuid
 
     - name: ✏️ Chequeando estilos (flake8)... # Ejecuta flake8
       run: |
