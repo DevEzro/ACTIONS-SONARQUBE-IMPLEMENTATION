@@ -14,7 +14,7 @@ env: # Variables de entorno
   RESULTS_DIR: results # Directorio de los resultados
 
 jobs: # Conjunto de las tareas
-  build-test: # Nombre de la tarea (job)
+  jobs-execution: # Nombre de la tarea (job)
     runs-on: ubuntu-latest # Virtualiza en Ubuntu
 
     steps: # Pasos de la tarea
