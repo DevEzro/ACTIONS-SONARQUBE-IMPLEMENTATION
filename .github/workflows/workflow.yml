@@ -39,6 +39,12 @@ jobs: # Conjunto de las tareas
         java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java | tee ${{ env.RESULTS_DIR }}/java/checkstyle-output.txt || true
       continue-on-error: true
 
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run security audit
+      run: npm audit
+
     # - name: 🛠️ Compilando código Java...
     #   run: |
     #     javac ${{ env.JAVA_SRC }}/Main.java -d build
