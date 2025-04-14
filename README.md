@@ -1,4 +1,6 @@
 # 🕵🏻 GITHUB ACTIONS W/ SONARQUBE SETUP
+>[!NOTE] 🗒️ Este respositorio es público y de prueba para comprender y prácticar el uso de workflows con SonarQube 📚🧪. Eres libre de forkearlo y hacer tus propias pruebas🤝🏻. Si te ha servido, una estrella estaría genial⭐😊. Si aplicarías mejoras, abre una issue con la palabra 'MEJORA' al principio del título y crearé una rama nueva con TODAS las mejoras que se propongan💡.
+
 ## ⚙️ PASO 1 - DOCKER
 ### docker-compose.yml
 - Postgres como DB de SonarQube
