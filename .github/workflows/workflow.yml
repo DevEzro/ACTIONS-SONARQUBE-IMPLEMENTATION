@@ -118,13 +118,13 @@ jobs: # Conjunto de las tareas
 
     - name: ☑️ Verificando SonarQube...
       run: |
-        curl -I http://rnvtl-77-211-5-216.a.free.pinggy.link || true
+        curl -I http://rnbei-77-211-5-111.a.free.pinggy.link || true
 
     - name: 🚀 Ejecutando escaneo de SonarQube...
       run: |
         sonar-scanner \
           -Dsonar.projectKey=VariosTests \
-          -Dsonar.host.url=http://rnvtl-77-211-5-216.a.free.pinggy.link \
+          -Dsonar.host.url=http://rnbei-77-211-5-111.a.free.pinggy.link \
           -Dsonar.token=${{ secrets.MAIN_TOKEN }} \
           -Dsonar.sources=python,src \
           -Dsonar.python.version=3.x \
