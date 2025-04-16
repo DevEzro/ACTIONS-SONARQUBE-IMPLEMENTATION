@@ -4,8 +4,6 @@ on: # Eventos que activan el workflow
   push:
     branches: # Git push activará el workflow al realizarse en estas ramas
       - main
-      - dev
-      - feature
 
 env: # Variables de entorno
   SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }} # Token para main branch
