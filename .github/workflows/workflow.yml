@@ -3,6 +3,10 @@ name: CI-CD [TESTS]
 on:
   push:
     branches: [test]
+  
+  #schedule: # Programar ejecucciones
+            #m h D M dW
+    #- cron: '* * * * *'
 
 jobs:
   build:
