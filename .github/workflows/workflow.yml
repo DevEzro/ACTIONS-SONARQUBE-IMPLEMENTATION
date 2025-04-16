@@ -8,6 +8,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions: # Para la action git-auto-commit
+      contents: write
+
     steps:
-    - name: Hola Mundo
-      run: echo "Hola Mundo"
+      - name: Checkout repo
+        uses: actions/checkout@v4 # Obtiene todo el repositorio
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5 # Configura Python
+        with:
+          python-version: '3.13' # Establece la versión a utilizar
+      
+      - name: Run script
+        run: python ./python/stats.py
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Update stats
+          commit_user_name: DevEzro [GitHub Action]
+          commit_user_email: davidtestout@outlook.com
+          commit_author: DevEzro
