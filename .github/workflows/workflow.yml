@@ -20,34 +20,34 @@ jobs: # Conjunto de las tareas
       uses: actions/checkout@v4
 
     # ------------ JAVA BUILD & TEST ------------
-    - name: ☕ Congigurando JDK 17... # Instala y configura Java - ZULU
+    - name: ☕ JAVA - Congigurando JDK 17... # Instala y configura Java - ZULU
       uses: actions/setup-java@v2
       with:
         java-version: '17' 
         distribution: 'zulu'
 
-    - name: 📦 Instalando Checkstyle para Java...
+    - name: ☕ JAVA - 📦 Instalando Checkstyle para Java...
       run: |
         wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.1/checkstyle-10.12.1-all.jar
         wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/checkstyle-10.12.1/src/main/resources/google_checks.xml
 
-    - name: 🚀 Ejecutando Checkstyle (Java)...
+    - name: ☕ JAVA - 🚀 Ejecutando Checkstyle (Java)...
       run: |
         mkdir -p ${{ env.RESULTS_DIR }}/java
         java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java | tee ${{ env.RESULTS_DIR }}/java/checkstyle-output.txt || true
       continue-on-error: true
 
-    - name: 🛠️ Compilando código Java...
+    - name: ☕ JAVA - 🛠️ Compilando código Java...
       run: |
         javac ${{ env.JAVA_SRC }}/Main.java -d build
       continue-on-error: true
 
-    - name: 📦 Descargando JUnit... # Instala y configura JUnit
+    - name: ☕ JAVA - 📦 Descargando JUnit... # Instala y configura JUnit
       run: |
         wget -O junit-platform-console-standalone-1.10.0.jar \
         https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.0/junit-platform-console-standalone-1.10.0.jar
 
-    - name: 🧪 Ejecutando tests unitarios Java (JUnit 5)...
+    - name: ☕ JAVA - 🧪 Ejecutando tests unitarios Java (JUnit 5)...
       run: |
         wget -O junit-platform-console-standalone-1.10.0.jar \
         https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.0/junit-platform-console-standalone-1.10.0.jar
@@ -57,37 +57,37 @@ jobs: # Conjunto de las tareas
           --scan-class-path | tee ${{ env.RESULTS_DIR }}/java/junit-results.txt
       continue-on-error: true
 
-    - name: 🚀 Ejecutando código Java...
+    - name: ☕ JAVA - 🚀 Ejecutando código Java...
       run: java -cp build com.example.sqlinjectiontest.Main | tee ${{ env.RESULTS_DIR}}/java/java-output.txt || true
 
-    - name: 🧹 Limpiando compilados...
+    - name: ☕ JAVA - 🧹 Limpiando compilados...
       run: rm -rf build
 
     # ------------ PYTHON TESTS ------------
-    - name: 🐍 Configurando Python... # Instala y configura Python
+    - name: 🐍 PYTHON - Configurando Python... # Instala y configura Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.x'
 
-    - name: 📦 Instalando las dependencias para Python... # Instala las librerias de Python a usar
+    - name: 🐍 PYTHON - 📦 Instalando las dependencias para Python... # Instala las librerias de Python a usar
       run: |
         pip install pytest flake8 bandit black requests uuid
 
-    - name: ✏️ Chequeando estilos (flake8)... # Ejecuta flake8
+    - name: 🐍 PYTHON - ✏️ Chequeando estilos (flake8)... # Ejecuta flake8
       run: |
         mkdir -p ${{ env.RESULTS_DIR }}/python
         flake8 python/ | tee ${{ env.RESULTS_DIR }}/python/flake-results.txt
       continue-on-error: true
   
-    - name: 📊 Chequeando formato (black)... # Ejecuta black
+    - name: 🐍 PYTHON - 📊 Chequeando formato (black)... # Ejecuta black
       run: black --check python/ | tee ${{ env.RESULTS_DIR }}/python/black-results.txt
       continue-on-error: true
 
-    - name: 🕵🏻‍♂️ Ejecutando análisis de seguridad (bandit)... # Ejecuta bandit en busca de vulnerabilidades
+    - name: 🐍 PYTHON - 🕵🏻‍♂️ Ejecutando análisis de seguridad (bandit)... # Ejecuta bandit en busca de vulnerabilidades
       run: bandit -r python/ -x tests/ -s B101 | tee ${{ env.RESULTS_DIR }}/python/bandit-results.txt # Ignora el assert de python (-x tests/ -s B101)
       continue-on-error: true
 
-    - name: 🧪 Ejecutando pytests... # Ejecuta los pytests
+    - name: 🐍 PYTHON - 🧪 Ejecutando pytests... # Ejecuta los pytests
       run: |
         mkdir -p ${{ env.RESULTS_DIR }}/python
         pytest -s -v --disable-warnings python/file.py | tee ${{ env.RESULTS_DIR }}/python/pytest_file-results.txt
@@ -107,22 +107,22 @@ jobs: # Conjunto de las tareas
         echo "✅ Java and Python tasks completed."
         echo "📄 Outputs stored in 'results/' and uploaded as artifacts."
 
-    - name: 📦 Instalando Sonar Scanner...
+    - name: 📊SONARQUBE - Instalando Sonar Scanner...
       run: |
         wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
         unzip sonar-scanner-cli-5.0.1.3006-linux.zip
         mv sonar-scanner-5.0.1.3006-linux sonar-scanner
         echo "$(pwd)/sonar-scanner/bin" >> $GITHUB_PATH
 
-    - name: ☑️ Verificando SonarQube...
+    - name: 📊SONARQUBE -☑️ Verificando SonarQube...
       run: |
-        curl -I  http://rndvc-212-73-34-55.a.free.pinggy.link || true
+        curl -I  http://rndwm-212-73-34-55.a.free.pinggy.link || true
 
-    - name: 🚀 Ejecutando escaneo de SonarQube...
+    - name: 📊SONARQUBE -🚀 Ejecutando escaneo de SonarQube...
       run: |
         sonar-scanner \
           -Dsonar.projectKey=VariosTests \
-          -Dsonar.host.url=http://rndvc-212-73-34-55.a.free.pinggy.link \
+          -Dsonar.host.url=http://rndwm-212-73-34-55.a.free.pinggy.link \
           -Dsonar.token=${{ secrets.MAIN_TOKEN }} \
           -Dsonar.sources=python,src \
           -Dsonar.python.version=3.x \
