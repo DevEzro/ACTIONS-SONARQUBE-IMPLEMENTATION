@@ -70,3 +70,64 @@ Es posible que aparezca como `❌Failed` debido a que habrá cosas por cubrir co
 # 🕵🏻 GITHUB ACTIONS W/ SONARQUBE SETUP
 >[!NOTE] 
 🗒️ This repository is public for make custom tests and understand and practice the usage of workflows in SonarQube 📚🧪. You're free to fork it and make your own tests🤝🏻. If this served you, I will be greatfull for the repo to be starred⭐😊. If your would apply improvements please open an issue with the word 'IMPROVEMENT' in the title field and I will create a new branch with ALL the propoused improvements💡.
+
+## ⚙️ STEP 1 - DOCKER
+### docker-compose.yml
+- Postgres as a DB for SonarQube
+- SonarQube
+- Run: `docker-compose up -d`
+
+<br>
+
+## 💭 STEP 2 - HOSTING (NGROK, PINGGY, SERVIDOR...)
+### NGROK
+- [Ngrok download](https://download.ngrok.com/downloads/windows)
+- [Autenticate with CMD](https://dashboard.ngrok.com/get-started/your-authtoken)
+- Host the SoanrQube route: `ngrok http 9000`
+### PINGGY
+- [Pinggy (Instructions on the web)](https://pinggy.io)
+<br>
+
+## 🔐 STEP 3 - SONARQUBE TOKEN
+- `localhost:9000`
+-  user: `admin` pass: `admin`
+-  New pass / My Account / Security / Generate Tokens:
+
+### PASO 3.1 - GitHub repo secret
+- Repo Settings / Secrets and variables -> Actions / New repository secret
+  - Name: `SONAR_TOKEN` 
+  - Value: `SONARQUBE TOKEN`
+- Update secret
+
+<br>
+
+### 📚 STEP 4 - YML FILE CONFIGURATION
+- The file `workflow.yml` in `.github/workflows` defines the tasks to run
+- To make this work correctly with SonarQube and run the analysis, modify in `workflow.yml` the `-Dsonar.host.url=<URL SONARQUBE> \` parameter
+
+>[!CAUTION]
+For both Pinggy and Ngrok generated links, it must be in both `Verificar SonarQube` and `host.url` sections from `workflow.yml`
+
+<br>
+
+### ▶️ STEP 5 - RUN JOBS
+- `git add .` 
+- `git commit -m "Jobs"`
+- `git push -u origin main`
+
+>[!NOTE]
+To check SonarQube behavior, follow the next steps to watch the results:
+
+1. Ensure having the codde from `examples/Main.java.txt` in `src/com/example/sqlinjection/Main.java`.
+2. Make `git add .`, `git commit -m "init"` and `git push -u origin main`
+3. The workflow will detect it and start the analysis.
+4. At the end, enter the URL where we have SonarQube to view the analysis (the status will be `✅Passed`)
+5. Copy the content from the `examples/Vuln.java.txt` file in `src/com/example/sqlinjection/Main.java` and repeat the process.
+6. The analysis status will be `❌Failed`
+7. To amend this errors copy the content from the `examples/VulnSolved2.java.txt` file in the `src/com/example/sqlinjection/Main.java` file
+8. Repeat the git process and watch SonarQube results.
+
+<br>
+
+>[!WARNING]
+Is probably that it would appears `❌Failed` again due some errors to solve like tests in the code. If you're not interested in SonarQube to show this errors, you may create a `Quality Gate` in SonarQube, setting every parameter to 0% except the `Security Hotspots Review` parameter.
