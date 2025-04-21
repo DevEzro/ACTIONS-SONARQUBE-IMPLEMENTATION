@@ -69,7 +69,7 @@ Es posible que aparezca como `❌Failed` debido a que habrá cosas por cubrir co
 #### _ENG_ 🟦🟥⬜
 # 🕵🏻 GITHUB ACTIONS W/ SONARQUBE SETUP
 >[!NOTE] 
-🗒️ This repository is public for make custom tests and understand and practice the usage of workflows in SonarQube 📚🧪. You're free to fork it and make your own tests🤝🏻. If this served you, I will be greatfull for the repo to be starred⭐😊. If your would apply improvements please open an issue with the word 'IMPROVEMENT' in the title field and I will create a new branch with ALL the propoused improvements💡.
+🗒️ This repository is public for make custom tests and for understand and practice the usage of workflows with SonarQube integrated 📚🧪. You're free to fork it and make your own tests🤝🏻. If this served you, I will be greatfull for the repo to be starred⭐😊. If you would apply improvements please open an issue with the word 'UPGRADE' in the title field and I will create a new branch with ALL the propoused improvements💡.
 
 ## ⚙️ STEP 1 - DOCKER
 ### docker-compose.yml
@@ -82,7 +82,7 @@ Es posible que aparezca como `❌Failed` debido a que habrá cosas por cubrir co
 ## 💭 STEP 2 - HOSTING (NGROK, PINGGY, SERVIDOR...)
 ### NGROK
 - [Ngrok download](https://download.ngrok.com/downloads/windows)
-- [Autenticate with CMD](https://dashboard.ngrok.com/get-started/your-authtoken)
+- [Authenticate with CMD](https://dashboard.ngrok.com/get-started/your-authtoken)
 - Host the SoanrQube route: `ngrok http 9000`
 ### PINGGY
 - [Pinggy (Instructions on the web)](https://pinggy.io)
