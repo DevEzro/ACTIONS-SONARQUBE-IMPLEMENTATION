@@ -1,3 +1,4 @@
+#### _ESP_ 🟥🟨🟥
 # 🕵🏻 GITHUB ACTIONS W/ SONARQUBE SETUP
 >[!NOTE] 
 🗒️ Este respositorio es público y de prueba para comprender y prácticar el uso de workflows con SonarQube 📚🧪. Eres libre de forkearlo y hacer tus propias pruebas🤝🏻. Si te ha servido, una estrella estaría genial⭐😊. Si aplicarías mejoras, abre una issue con la palabra 'MEJORA' al principio del título y crearé una rama nueva con TODAS las mejoras que se propongan💡.
@@ -62,3 +63,10 @@ Para comprobar el funcionamiento de SonarQube respecto a este repositorio, se es
 
 >[!WARNING]
 Es posible que aparezca como `❌Failed` debido a que habrá cosas por cubrir como tests o pruebas en el código. Puede ocurrir que no interese mostrar esos error por lo que se debe crear una `Quality Gate` en SonarQube, estableciendo todo a 0% excepto los `Security Hotspots Review`
+
+<br>
+
+#### _ENG_ 🟦🟥⬜
+# 🕵🏻 GITHUB ACTIONS W/ SONARQUBE SETUP
+>[!NOTE] 
+🗒️ This repository is public for make custom tests and understand and practice the usage of workflows in SonarQube 📚🧪. You're free to fork it and make your own tests🤝🏻. If this served you, I will be greatfull for the repo to be starred⭐😊. If your would apply improvements please open an issue with the word 'IMPROVEMENT' in the title field and I will create a new branch with ALL the propoused improvements💡.
