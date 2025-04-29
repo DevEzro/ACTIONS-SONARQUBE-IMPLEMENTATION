@@ -40,7 +40,6 @@ jobs: # Conjunto de las tareas
     - name: ☕ JAVA - 🛠️ Compilando código Java...
       run: |
         javac ${{ env.JAVA_SRC }}/Main.java -d build
-        javac ${{ env.JAVA_SRC }}/MainTest.java -d build
       continue-on-error: true
 
     - name: ☕ JAVA - 📦 Descargando JUnit... # Instala y configura JUnit
