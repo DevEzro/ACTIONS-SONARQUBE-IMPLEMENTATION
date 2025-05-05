@@ -113,29 +113,8 @@ jobs: # Conjunto de las tareas
         mv pinggy /usr/local/bin/pinggy
 
     - name: 🚀 Lanzando Pinggy y capturando URL
-      id: pinggy
       run: |
-        nohup pinggy http 9000 --urlfile pinggy.url > pinggy.log 2>&1 &
-
-        # Esperar hasta que aparezca el archivo (máx. 30s)
-        for i in {1..30}; do
-          if [ -f pinggy.url ]; then
-            break
-          fi
-          sleep 1
-        done
-
-        if [ ! -f pinggy.url ]; then
-          echo "❌ Error: pinggy.url no se creó"
-          cat pinggy.log  # Mostrar log para diagnosticar
-          exit 1
-        fi
-
-        url=$(cat pinggy.url)
-        echo "Pinggy URL: $url"
-        echo "url=$url" >> $GITHUB_OUTPUT
-
-
+        ssh -p 443 -R0:127.0.0.1:9000 qr@a.pinggy.io
 
     - name: 📊SONARQUBE - Instalando Sonar Scanner...
       run: |
