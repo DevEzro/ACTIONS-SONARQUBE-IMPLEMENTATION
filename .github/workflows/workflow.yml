@@ -106,12 +106,6 @@ jobs: # Conjunto de las tareas
         echo "✅ Java and Python tasks completed."
         echo "📄 Outputs stored in 'results/' and uploaded as artifacts."
 
-    - name: 🚀 Instalando Pinggy
-      run: |
-        wget https://github.com/pinggy-io/pinggy/releases/latest/download/pinggy-linux-amd64 -O pinggy
-        chmod +x pinggy
-        mv pinggy /usr/local/bin/pinggy
-
     - name: 🚀 Lanzando Pinggy y capturando URL
       run: |
         ssh -p 443 -R0:127.0.0.1:9000 qr@a.pinggy.io
