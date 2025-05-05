@@ -108,7 +108,7 @@ jobs: # Conjunto de las tareas
 
     - name: 🚀 Lanzando Pinggy y capturando URL
       run: |
-        ssh -p 443 -R0:127.0.0.1:9000 qr@a.pinggy.io
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 443 -R0:127.0.0.1:9000 qr@a.pinggy.io
 
     - name: 📊SONARQUBE - Instalando Sonar Scanner...
       run: |
