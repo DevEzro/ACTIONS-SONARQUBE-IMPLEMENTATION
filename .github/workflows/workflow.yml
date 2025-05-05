@@ -109,9 +109,9 @@ jobs: # Conjunto de las tareas
     - name: 🚀 Lanzando Pinggy y capturando URL
       id: pinggy
       run: |
-        nohup pinggy http 9000 > pinggy.log 2>&1 &
-        sleep 5  # espera a que arranque pinggy
-        url=$(grep -oE 'https://[a-zA-Z0-9.-]*\.pinggy\.io' pinggy.log | head -n1)
+        nohup pinggy http 9000 --urlfile pinggy.url > pinggy.log 2>&1 &
+        sleep 10  # espera a que arranque pinggy
+        url=$(cat pinggy.url)
         echo "Pinggy URL: $url"
         echo "url=$url" >> $GITHUB_OUTPUT
 
