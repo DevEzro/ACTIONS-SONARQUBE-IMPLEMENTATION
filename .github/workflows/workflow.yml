@@ -129,10 +129,10 @@ jobs: # Conjunto de las tareas
     - name: 📊SONARQUBE -🚀 Ejecutando escaneo de SonarQube...
       run: |
         sonar-scanner \
-          -Dsonar.projectKey=VariosTests \
+          -Dsonar.projectKey=CiCdTestswithSonarQube \
           -Dsonar.host.url=${{ steps.pinggy.outputs.url }} \
-          -Dsonar.token=${{ env.MY_TOKEN }} \
-          -Dsonar.sources=python,src \
+          -Dsonar.token=${{ secrets.SECSEN_TOKEN }} \
+          -Dsonar.sources=${{ env.PYTHON_PATH }} \
           -Dsonar.python.version=3.x \
           -Dsonar.qualitygate.wait=true \
           -X
