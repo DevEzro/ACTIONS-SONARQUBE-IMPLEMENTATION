@@ -106,10 +106,6 @@ jobs: # Conjunto de las tareas
         echo "✅ Java and Python tasks completed."
         echo "📄 Outputs stored in 'results/' and uploaded as artifacts."
 
-    - name: 🚀 Lanzando Pinggy y capturando URL
-      run: |
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 443 -R0:127.0.0.1:9000 qr@a.pinggy.io
-
     - name: 📊SONARQUBE - Instalando Sonar Scanner...
       run: |
         wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
@@ -119,13 +115,13 @@ jobs: # Conjunto de las tareas
 
     - name: 📊SONARQUBE -☑️ Verificando SonarQube...
       run: |
-        curl -I ${{ steps.pinggy.outputs.url }} || true
+        curl -I http://rnmus-77-211-5-55.a.free.pinggy.link || true
 
     - name: 📊SONARQUBE -🚀 Ejecutando escaneo de SonarQube...
       run: |
         sonar-scanner \
           -Dsonar.projectKey=CiCdTestswithSonarQube \
-          -Dsonar.host.url=${{ steps.pinggy.outputs.url }} \
+          -Dsonar.host.url=http://rnmus-77-211-5-55.a.free.pinggy.link \
           -Dsonar.token=${{ secrets.SECSEN_TOKEN }} \
           -Dsonar.sources=${{ env.PYTHON_PATH }} \
           -Dsonar.python.version=3.x \
