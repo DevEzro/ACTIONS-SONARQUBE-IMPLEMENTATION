@@ -7,7 +7,8 @@ on: # Eventos que activan el workflow
 
 env: # Variables de entorno
   SONAR_TOKEN: ${{ secrets.MY_TOKEN }} # Token para main branch
-  JAVA_SRC: src/com/example/sqlinjectiontest # Directorio del fichero Main.java
+  JAVASRC_DIR: java/src/com/example/sqlinjectiontest/Main.java # Directorio del fichero Main.java
+  JAVATESTS_DIR: java/tests/com/example/sqlinjectiontest/MainTest.java
   PYTHON_DIR: python # Directorio de los ficheros python
   RESULTS_DIR: results # Directorio de los resultados
 
@@ -34,12 +35,12 @@ jobs: # Conjunto de las tareas
     - name: ☕ JAVA - 🚀 Ejecutando Checkstyle (Java)...
       run: |
         mkdir -p ${{ env.RESULTS_DIR }}/java
-        java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java | tee ${{ env.RESULTS_DIR }}/java/checkstyle-output.txt || true
+        java -jar checkstyle.jar -c google_checks.xml ${{ env.JAVASRC_DIR }} | tee ${{ env.RESULTS_DIR }}/java/checkstyle-output.txt || true
       continue-on-error: true
 
     - name: ☕ JAVA - 🛠️ Compilando código Java...
       run: |
-        javac ${{ env.JAVA_SRC }}/Main.java -d build
+        javac ${{ env.JAVASRC_DIR }} -d build
       continue-on-error: true
 
     - name: ☕ JAVA - 📦 Descargando JUnit... # Instala y configura JUnit
@@ -58,7 +59,7 @@ jobs: # Conjunto de las tareas
       continue-on-error: true
 
     - name: ☕ JAVA - 🚀 Ejecutando código Java...
-      run: java -cp build com.example.sqlinjectiontest.Main | tee ${{ env.RESULTS_DIR}}/java/java-output.txt || true
+      run: java -cp build ${{ env.JAVASRC_DIR }} | tee ${{ env.RESULTS_DIR}}/java/java-output.txt || true
 
     - name: ☕ JAVA - 🧹 Limpiando compilados...
       run: rm -rf build
