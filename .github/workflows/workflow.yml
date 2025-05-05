@@ -7,8 +7,8 @@ on: # Eventos que activan el workflow
 
 env: # Variables de entorno
   SONAR_TOKEN: ${{ secrets.MY_TOKEN }} # Token para main branch
-  JAVASRC_DIR: java/src/com/example/sqlinjectiontest/Main.java # Directorio del fichero Main.java
-  JAVATESTS_DIR: java/tests/com/example/sqlinjectiontest/MainTest.java
+  JAVASRC_DIR: src/com/example/sqlinjectiontest/Main.java # Directorio del fichero Main.java
+  JAVATESTS_DIR: tests/com/example/sqlinjectiontest/MainTest.java
   PYTHON_DIR: python # Directorio de los ficheros python
   RESULTS_DIR: results # Directorio de los resultados
 
