@@ -131,3 +131,5 @@ To check SonarQube behavior, follow the next steps to watch the results:
 
 >[!WARNING]
 Is probably that it would appear `❌Failed` again due some errors that should be solved like adding tests in the code. If you're not interested in SonarQube to show these errors, you may create a `Quality Gate` in SonarQube, setting every parameter to 0% except the `Security Hotspots Review` parameter.
+
+[![Quality gate](http://localhost:9000/api/project_badges/quality_gate?project=VariosTests&token=sqb_762afec6e8977d81da65c83b979a0801f5259912)](http://localhost:9000/dashboard?id=VariosTests)
