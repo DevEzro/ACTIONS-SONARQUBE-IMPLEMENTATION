@@ -98,7 +98,7 @@ jobs: # Conjunto de las tareas
     - name: Install Ruff
       run: pip install ruff
     - name: Run Ruff
-      run: ruff check --output-format=github src/
+      run: ruff check --output-format=github tests/
     # ------------ ARTIFACTS ------------
     - name: 📁 Almanceando resultados... # Almacena los resultados de las pruebas
       uses: actions/upload-artifact@v4
