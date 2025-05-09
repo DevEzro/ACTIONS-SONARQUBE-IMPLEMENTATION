@@ -131,19 +131,10 @@ jobs: # Conjunto de las tareas
           -X
       continue-on-error: true
 
-    - name: Mostrar uso de recursos del sistema
+    - name: Instalar psrecord
+      run: pip install psrecord
+
+    - name: Ejecutar y registrar uso de recursos
       run: |
-        echo "📊 Información del sistema:"
-        uname -a
-
-        echo "🧠 Uso de memoria:"
-        free -h
-
-        echo "🖥️ Uso de CPU:"
-        top -bn1 | head -n 10
-
-        echo "💾 Uso de disco:"
-        df -h
-
-        echo "📈 Procesos más activos:"
-        ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head -n 10
+        psrecord $(pgrep -f tu_script.py) --log registro.txt --interval 1 &
+        python tu_script.py
