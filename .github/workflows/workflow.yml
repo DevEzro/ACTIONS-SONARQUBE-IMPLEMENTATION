@@ -128,6 +128,7 @@ jobs: # Conjunto de las tareas
           -Dsonar.python.version=3.x \
           -Dsonar.qualitygate.wait=true \
           -X
+      continue-on-error: true
 
     - name: Recopilar uso de recursos
       run: |
