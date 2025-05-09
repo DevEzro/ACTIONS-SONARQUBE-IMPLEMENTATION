@@ -134,7 +134,6 @@ jobs: # Conjunto de las tareas
     - name: Instalar psrecord
       run: pip install psrecord
 
-    - name: Ejecutar y registrar uso de recursos
+    - name: Medir uso de recursos del script con psrecord
       run: |
-        psrecord $(pgrep -f tu_script.py) --log registro.txt --interval 1 &
-        python tu_script.py
+        psrecord "python tu_script.py" --log registro.txt --plot plot.png --interval 1
