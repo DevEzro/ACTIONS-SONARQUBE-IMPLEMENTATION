@@ -73,7 +73,7 @@ jobs: # Conjunto de las tareas
 
     - name: 🐍 PYTHON - 📦 Instalando las dependencias para Python... # Instala las librerias de Python a usar
       run: |
-        pip install pytest flake8 bandit black requests uuid
+        pip install pytest flake8 bandit black requests uuid ruff
 
     - name: 🐍 PYTHON - ✏️ Chequeando estilos (flake8)... # Ejecuta flake8
       run: |
@@ -95,8 +95,6 @@ jobs: # Conjunto de las tareas
         pytest -s -v --disable-warnings python/test/pixegami_test.py | tee ${{ env.RESULTS_DIR }}/python/pytest_pixegami-results.txt
       continue-on-error: true
 
-    - name: Install Ruff
-      run: pip install ruff
     - name: Run Ruff
       run: ruff check --output-format=github python/
     # ------------ ARTIFACTS ------------
@@ -121,13 +119,13 @@ jobs: # Conjunto de las tareas
 
     - name: 📊SONARQUBE -☑️ Verificando SonarQube...
       run: |
-        curl -I http://rnilm-2-155-194-9.a.free.pinggy.link || true
+        curl -I http://rnkev-2-155-194-9.a.free.pinggy.link || true
 
     - name: 📊SONARQUBE -🚀 Ejecutando escaneo de SonarQube...
       run: |
         sonar-scanner \
           -Dsonar.projectKey=VariosTests \
-          -Dsonar.host.url=http://rnilm-2-155-194-9.a.free.pinggy.link \
+          -Dsonar.host.url=http://rnkev-2-155-194-9.a.free.pinggy.link \
           -Dsonar.token=${{ env.SONAR_TOKEN }} \
           -Dsonar.sources=python,src \
           -Dsonar.python.version=3.x \
