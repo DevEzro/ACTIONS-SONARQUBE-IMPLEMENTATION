@@ -6,7 +6,7 @@ on: # Eventos que activan el workflow
       - main
 
 env: # Variables de entorno
-  SONAR_TOKEN: ${{ secrets.MY_TOKEN }} # Token para main branch
+  ACT_TOKEN: ${{ secrets.TOKEN }} # Token para main branch
   JAVASRC_DIR: src/com/example/sqlinjectiontest/Main.java # Directorio del fichero Main.java
   JAVATESTS_DIR: tests/com/example/sqlinjectiontest/MainTest.java
   PYTHON_DIR: python # Directorio de los ficheros python
@@ -95,11 +95,11 @@ jobs: # Conjunto de las tareas
       continue-on-error: true
       
     # ------------ ARTIFACTS ------------
-    - name: 📁 Almanceando resultados... # Almacena los resultados de las pruebas
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-results
-        path: results/
+    # - name: 📁 Almanceando resultados... # Almacena los resultados de las pruebas
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: test-results
+    #     path: results/
 
     # ------------ SUMMARY ------------
     - name: 📋 Resumen # Resumen de las tareas de Java y Python
@@ -116,15 +116,20 @@ jobs: # Conjunto de las tareas
 
     - name: 📊SONARQUBE -☑️ Verificando SonarQube...
       run: |
-        curl -I http://rnluq-77-211-5-180.a.free.pinggy.link || true
+        curl -I http://rnhvz-2-155-194-9.a.free.pinggy.link || true
 
     - name: 📊SONARQUBE -🚀 Ejecutando escaneo de SonarQube...
       run: |
         sonar-scanner \
           -Dsonar.projectKey=VariosTests \
-          -Dsonar.host.url=http://rnluq-77-211-5-180.a.free.pinggy.link \
-          -Dsonar.token=${{ env.MY_TOKEN }} \
+          -Dsonar.host.url=http://rnhvz-2-155-194-9.a.free.pinggy.link \
+          -Dsonar.token=${{ env.ACT_TOKEN }} \
           -Dsonar.sources=python,src \
           -Dsonar.python.version=3.x \
           -Dsonar.qualitygate.wait=true \
           -X
+
+    - name: Recopilar uso de recursos
+      run: |
+        echo "Uso de CPU y memoria:"
+        top -b -n 1 | head -n 10
