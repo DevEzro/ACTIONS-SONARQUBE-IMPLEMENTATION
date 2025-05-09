@@ -130,7 +130,19 @@ jobs: # Conjunto de las tareas
           -X
       continue-on-error: true
 
-    - name: Recopilar uso de recursos
+    - name: Mostrar uso de recursos del sistema
       run: |
-        echo "Uso de CPU y memoria:"
-        top -b -n 1 | head -n 10
+        echo "📊 Información del sistema:"
+        uname -a
+
+        echo "🧠 Uso de memoria:"
+        free -h
+
+        echo "🖥️ Uso de CPU:"
+        top -bn1 | head -n 10
+
+        echo "💾 Uso de disco:"
+        df -h
+
+        echo "📈 Procesos más activos:"
+        ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head -n 10
