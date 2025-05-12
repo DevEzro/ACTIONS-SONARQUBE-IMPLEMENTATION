@@ -42,7 +42,7 @@ jobs: # Tareas
           sonar-scanner \
             -Dsonar.projectKey=SQLInjectionTest \
             -Dsonar.host.url=http://rnifg-79-117-46-114.a.free.pinggy.link
-            -Dsonar.login=$MY_TOKEN \
+            -Dsonar.token=$MY_TOKEN \
             -Dsonar.sources=src/com/example/sqlinjectiontest/Main.java \
             -Dsonar.qualitygate.wait=true \
             -X
