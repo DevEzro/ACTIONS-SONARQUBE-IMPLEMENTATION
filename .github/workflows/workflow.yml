@@ -37,12 +37,12 @@ jobs: # Tareas
 
       - name: Analizar código en SonarQube...
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          MY_TOKEN: ${{ secrets.MY_TOKEN }}
         run: |
           sonar-scanner \
             -Dsonar.projectKey=SQLInjectionTest \
             -Dsonar.host.url=http://rnifg-79-117-46-114.a.free.pinggy.link
-            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.login=$MY_TOKEN \
             -Dsonar.sources=src/com/example/sqlinjectiontest/Main.java \
             -Dsonar.qualitygate.wait=true \
             -X
