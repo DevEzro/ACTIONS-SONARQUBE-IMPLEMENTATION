@@ -32,7 +32,7 @@ jobs: # Tareas
 
       - name: Verificar SonarQube...
         run: |
-          curl -I http://rnkrk-79-117-46-114.a.free.pinggy.link
+          curl -I http://rnmof-31-4-242-174.a.free.pinggy.link
         continue-on-error: true
 
       - name: Analizar código en SonarQube...
@@ -41,7 +41,7 @@ jobs: # Tareas
         run: |
           sonar-scanner \
             -Dsonar.projectKey=SQLInjectionTest \
-            -Dsonar.host.url=http://rnkrk-79-117-46-114.a.free.pinggy.link \
+            -Dsonar.host.url=http://rnmof-31-4-242-174.a.free.pinggy.link \
             -Dsonar.token=$MY_TOKEN \
             -Dsonar.sources=src/com/example/sqlinjectiontest/Main.java \
             -Dsonar.qualitygate.wait=true \
