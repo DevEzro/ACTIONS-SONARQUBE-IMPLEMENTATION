@@ -6,8 +6,7 @@ on: # Eventos que activan el workflow
       - full
 
 env: # Variables de entorno
-  MY_TOKEN: ${{ secrets.MY_TOKEN }} # Token para main branch
-  SONAR_TOKEN: ${{ secrets.SECSEN_TOKEN }} # Token para sonar
+  SONAR_TOKEN: ${{ secrets.MY_TOKEN }} # Token para sonar
   JAVASRC_DIR: src/com/example/sqlinjectiontest/Main.java # Directorio del fichero Main.java
   JAVATESTS_DIR: tests/com/example/sqlinjectiontest/MainTest.java
   PYTHON_DIR: python # Directorio de los ficheros python
@@ -125,14 +124,14 @@ jobs: # Conjunto de las tareas
 
     - name: 📊SONARQUBE -☑️ Verificando SonarQube...
       run: |
-        curl -I http://rndgx-31-4-242-138.a.free.pinggy.link || true
+        curl -I http://rncck-31-4-242-138.a.free.pinggy.link || true
 
     - name: 📊SONARQUBE -🚀 Ejecutando escaneo de SonarQube...
       run: |
         sonar-scanner \
           -Dsonar.projectKey=VariosTests \
-          -Dsonar.host.url=http://rndgx-31-4-242-138.a.free.pinggy.link \
-          -Dsonar.token=${{ secrets.MY_TOKEN }} \
+          -Dsonar.host.url=http://rncck-31-4-242-138.a.free.pinggy.link \
+          -Dsonar.token=${{ env.MY_TOKEN }} \
           -Dsonar.sources=python,src \
           -Dsonar.python.version=3.x \
           -Dsonar.qualitygate.wait=true \
