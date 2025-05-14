@@ -1,4 +1,4 @@
-name: ACTIONS-SONARQUBE-TEST # Nombre del workflow
+name: FULL ACTIONS-SONARQUBE-TEST # Nombre del workflow
 
 on: # Eventos que activan el workflow
   push:
