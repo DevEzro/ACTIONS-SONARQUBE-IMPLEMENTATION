@@ -31,7 +31,8 @@ jobs: # Conjunto de las tareas
       run: |
         wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.1/checkstyle-10.12.1-all.jar
         wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/checkstyle-10.12.1/src/main/resources/google_checks.xml
-
+      continue-on-error: true
+    
     - name: ☕ JAVA - 🚀 Ejecutando Checkstyle (Java)...
       run: |
         mkdir -p ${{ env.RESULTS_DIR }}/java
@@ -47,6 +48,7 @@ jobs: # Conjunto de las tareas
       run: |
         wget -O junit-platform-console-standalone-1.10.0.jar \
         https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.0/junit-platform-console-standalone-1.10.0.jar
+      continue-on-error: true
 
     - name: ☕ JAVA - 🧪 Ejecutando tests unitarios Java (JUnit 5)...
       run: |
@@ -60,6 +62,7 @@ jobs: # Conjunto de las tareas
 
     - name: ☕ JAVA - 🚀 Ejecutando código Java...
       run: java -cp build ${{ env.JAVASRC_DIR }} | tee ${{ env.RESULTS_DIR}}/java/java-output.txt || true
+      continue-on-error: true
 
     - name: ☕ JAVA - 🧹 Limpiando compilados...
       run: rm -rf build
