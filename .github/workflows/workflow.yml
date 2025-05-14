@@ -1,9 +1,9 @@
-name: CI-CD-SONARQUBE-TEST # Nombre del workflow
+name: ACTIONS-SONARQUBE-TEST # Nombre del workflow
 
 on: # Eventos que activan el workflow
   push:
     branches: # Git push activará el workflow al realizarse en estas ramas
-      - main
+      - full
 
 env: # Variables de entorno
   MY_TOKEN: ${{ secrets.MY_TOKEN }} # Token para main branch
@@ -113,7 +113,9 @@ jobs: # Conjunto de las tareas
       run: |
         echo "✅ Java and Python tasks completed."
         echo "📄 Outputs stored in 'results/' and uploaded as artifacts."
+        echo "🚀 Running SonarQube analysis now..."
 
+    # ------------ SONARQUBE ------------
     - name: 📊SONARQUBE - Instalando Sonar Scanner...
       run: |
         wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
