@@ -1,4 +1,4 @@
-name: MAIN ACTIOSN SONARQUBE TEST - SQL INJECTION # Nombre del workflow
+name: MAIN ACTIONS SONARQUBE TEST - SQL INJECTION # Nombre del workflow
 
 # Eventos de activación
 on:
