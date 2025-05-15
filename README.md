@@ -1,7 +1,7 @@
 #### _ESP_ 🇪🇸
 # 🕵🏻 GITHUB ACTIONS W/ SONARQUBE SETUP
 >[!NOTE] 
-🗒️ Este respositorio es público y de prueba para comprender y prácticar el uso de workflows con SonarQube 📚🧪. Eres libre de forkearlo y hacer tus propias pruebas🤝🏻. Si te ha servido, una estrella estaría genial⭐😊. Si aplicarías mejoras, abre una issue con la palabra 'MEJORA' al principio del título y crearé una rama nueva con TODAS las mejoras que se propongan💡.
+🗒️ Este respositorio es público y de prueba para comprender y prácticar el uso de workflows con SonarQube 📚🧪. Eres libre de forkearlo y hacer tus propias pruebas🤝🏻. Si te ha servido, una estrella estaría genial⭐😊. Si aplicarías mejoras, abre una pull request con la palabra 'MEJORA' al principio del título y crearé una rama nueva con TODAS las mejoras que se propongan💡.
 
 ## ⚙️ PASO 1 - DOCKER
 ### docker-compose.yml
@@ -69,7 +69,7 @@ Es posible que aparezca como `❌Failed` debido a que habrá cosas por cubrir co
 #### _ENG_ 🇬🇧
 # 🕵🏻 GITHUB ACTIONS W/ SONARQUBE SETUP
 >[!NOTE] 
-🗒️ This repository is public for making custom tests and for understanding and practicing the usage of workflows with SonarQube integrated 📚🧪. You're free to fork it and make your own tests🤝🏻. If this served you, I will be grateful for the repo to be starred⭐😊. If you would apply improvements please open an issue with the word 'UPGRADE' in the title field and I will create a new branch with ALL the proposed improvements💡.
+🗒️ This repository is public for making custom tests and for understanding and practicing the usage of workflows with SonarQube integrated 📚🧪. You're free to fork it and make your own tests🤝🏻. If this served you, I will be grateful for the repo to be starred⭐😊. If you would apply improvements please open a pull request with the word 'UPGRADE' in the title field and I will create a new branch with ALL the proposed improvements💡.
 
 ## ⚙️ STEP 1 - DOCKER
 ### docker-compose.yml
