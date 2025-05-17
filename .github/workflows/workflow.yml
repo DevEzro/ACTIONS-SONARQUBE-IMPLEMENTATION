@@ -66,6 +66,7 @@ jobs: # Conjunto de las tareas
 
     - name: ☕ JAVA - 🧹 Limpiando compilados...
       run: rm -rf build
+      continue-on-error: true
 
     # ------------ PYTHON TESTS ------------
     - name: 🐍 PYTHON - Configurando Python... # Instala y configura Python
