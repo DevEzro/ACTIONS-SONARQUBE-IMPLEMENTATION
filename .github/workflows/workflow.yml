@@ -75,7 +75,7 @@ jobs: # Conjunto de las tareas
 
     - name: 🐍 PYTHON - 📦 Instalando las dependencias para Python... # Instala las librerias de Python a usar
       run: |
-        pip install pytest flake8 bandit black requests uuid ruff
+        pip install pytest flake8 bandit black requests uuid mypy
 
     - name: 🐍 PYTHON - ✏️ Chequeando estilos (flake8)... # Ejecuta flake8
       run: |
@@ -99,7 +99,6 @@ jobs: # Conjunto de las tareas
 
     - name: 🐍 PYTHON - ☑️ Verificando tipos con mypy...
       run: |
-        pip install mypy
         mypy ${{ env.PYTHON_DIR }} | tee ${{ env.RESULTS_DIR }}/python/mypy-results.txt
       continue-on-error: true
 
