@@ -1,4 +1,4 @@
-name: SQL INJECTION TEST # Nombre del workflow
+name: MAIN ACTIONS SONARQUBE TEST - SQL INJECTION # Nombre del workflow
 
 # Eventos de activación
 on:
@@ -32,7 +32,7 @@ jobs: # Tareas
 
       - name: Verificar SonarQube...
         run: |
-          curl -I http://rntep-31-4-242-13.a.free.pinggy.link
+          curl -I http://rnyrn-31-4-242-138.a.free.pinggy.link
         continue-on-error: true
 
       - name: Analizar código en SonarQube...
@@ -41,7 +41,7 @@ jobs: # Tareas
         run: |
           sonar-scanner \
             -Dsonar.projectKey=SQLInjectionTest \
-            -Dsonar.host.url=http://rntep-31-4-242-13.a.free.pinggy.link \
+            -Dsonar.host.url=http://rnyrn-31-4-242-138.a.free.pinggy.link \
             -Dsonar.token=$MY_TOKEN \
             -Dsonar.sources=src/com/example/sqlinjectiontest/Main.java \
             -Dsonar.qualitygate.wait=true \
