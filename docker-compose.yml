@@ -6,7 +6,7 @@ services: # Contenedores
     image: sonarqube:latest # Imagen de SonarQube
     depends_on: # Parámetro de dependencias
       - db
-    container_name: sonarqube # Nombre dado al contenedor
+    container_name: sonar-sonarqube # Nombre dado al contenedor
     ports:
       - "9000:9000" # Puerto donde se desplegará
     environment: # Variables del entorno 
@@ -16,7 +16,7 @@ services: # Contenedores
 
   db:
     image: postgres:13
-    container_name: postgres
+    container_name: sonar-postgres
     environment:
       POSTGRES_USER: sonar
       POSTGRES_PASSWORD: sonar
